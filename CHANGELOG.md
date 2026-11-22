@@ -7,6 +7,12 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y
 
 ## [Unreleased]
 
+## [0.0.7] - 2026-11-23
+
+### Changed
+
+- Un torneo terminado ya no enseña el formulario de nombre y notas: sus notas se leen como texto, y el botón _Editar_, junto a _Borrar_, abre el formulario.
+
 ## [0.0.6] - 2026-11-23
 
 ### Added
@@ -50,7 +56,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y
 - Historial con filtros y búsqueda, y estadísticas de victorias por mazo rival, por mazo propio y según quién empieza.
 - Copia de seguridad: descargar y restaurar todos los datos en un JSON.
 
-[Unreleased]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.6...HEAD
+[Unreleased]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.7...HEAD
+[0.0.7]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.3...v0.0.4
