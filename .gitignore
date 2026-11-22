@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.env*.local
+.DS_Store
+.vscode/
+.idea
+# Solo se versiona pnpm-lock.yaml.
+package-lock.json
+yarn.lock
