@@ -17,4 +17,12 @@ describe('markTakenPrizes', () => {
     const { prizes } = markTakenPrizes([{ ...prize('Dreepy'), taken: true }], []);
     expect(prizes[0]?.taken).toBe(false);
   });
+
+  it('compara con el nombre en español de la carta', () => {
+    const { prizes } = markTakenPrizes(
+      [{ ...prize('Buddy-Buddy Poffin'), logName: 'Pokochos Gemelos' }],
+      ['Pokochos Gemelos'],
+    );
+    expect(prizes[0]?.taken).toBe(true);
+  });
 });

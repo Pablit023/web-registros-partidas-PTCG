@@ -1,3 +1,4 @@
+import { logNameOf } from './cardNames';
 import { normalizeName } from './normalize';
 import type { PrizeCard } from './types';
 
@@ -13,7 +14,11 @@ export function markTakenPrizes(
   const unmatched: string[] = [];
   for (const name of takenNames) {
     const target = normalizeName(name);
-    const prize = result.find((p) => !p.taken && normalizeName(p.name) === target);
+    // El log está en español: se compara con la traducción y, por si acaso, con el nombre del mazo.
+    const prize = result.find(
+      (p) =>
+        !p.taken && (normalizeName(logNameOf(p)) === target || normalizeName(p.name) === target),
+    );
     if (prize) prize.taken = true;
     else unmatched.push(name);
   }

@@ -11,6 +11,7 @@ import {
 } from '../components/ui';
 import { db } from '../data/db';
 import { useArchetypes, useGame, usePlayerName } from '../data/hooks';
+import { logNameOf } from '../domain/cardNames';
 import { detectArchetype, scoreArchetypes } from '../domain/detection';
 import { parseGameLog, type ParsedLog } from '../domain/logParser';
 import { markTakenPrizes } from '../domain/prizes';
@@ -131,7 +132,7 @@ function GameEditor({ game, archetypes }: { game: Game; archetypes: Archetype[] 
                   })
                 }
               >
-                <span>{prize.name}</span>
+                <span>{logNameOf(prize)}</span>
                 <span className="remove">{prize.taken ? '✓' : ''}</span>
               </button>
             ))}

@@ -1,5 +1,6 @@
 // Elige hasta 6 cartas del mazo como premios. Cada carta se puede elegir tantas veces como copias tiene.
 
+import { logNameOf } from '../domain/cardNames';
 import type { DeckCard, PrizeCard } from '../domain/types';
 import { CATEGORY_LABEL } from './ui';
 
@@ -20,7 +21,16 @@ export function PrizePicker({ cards, prizes, onChange }: Props) {
   const full = prizes.length >= PRIZE_COUNT;
 
   const add = (card: DeckCard) =>
-    onChange([...prizes, { name: card.name, set: card.set, number: card.number, taken: false }]);
+    onChange([
+      ...prizes,
+      {
+        name: card.name,
+        logName: card.logName,
+        set: card.set,
+        number: card.number,
+        taken: false,
+      },
+    ]);
   const remove = (index: number) => onChange(prizes.filter((_, i) => i !== index));
 
   return (
@@ -35,7 +45,7 @@ export function PrizePicker({ cards, prizes, onChange }: Props) {
               onClick={() => remove(i)}
               title="Quitar de los premios"
             >
-              <span>{prize.name}</span>
+              <span>{logNameOf(prize)}</span>
               <span className="remove">×</span>
             </button>
           ) : (
@@ -61,7 +71,9 @@ export function PrizePicker({ cards, prizes, onChange }: Props) {
                     disabled={full || left <= 0}
                     onClick={() => add(card)}
                   >
-                    <span className="card-name">{card.name}</span>
+                    <span className="card-name" title={card.logName ? card.name : undefined}>
+                      {logNameOf(card)}
+                    </span>
                     <span className="card-count">×{left}</span>
                   </button>
                 );

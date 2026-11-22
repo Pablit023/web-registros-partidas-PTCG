@@ -18,7 +18,7 @@ const HEADERS: Array<[RegExp, CardCategory]> = [
 
 const TOTAL_LINE = /^(total|cartas totales)/i;
 const CARD_LINE =
-  /^(\d+)\s+(.+?)(?:\s+([A-Z][A-Z0-9]{1,4}(?:-[A-Z0-9]+)?)\s+([A-Z]{0,4}\d+[a-z]?))?$/;
+  /^(\d+)\s+(.+?)(?:\s+([A-Z][A-Z0-9]{1,4}(?:-[A-Z0-9]+)?|Energy)\s+([A-Z]{0,4}\d+[a-z]?))?$/;
 
 export interface ParsedDeck {
   cards: DeckCard[];
@@ -51,8 +51,9 @@ export function parseDeckList(text: string): ParsedDeck {
     cards.push({
       count: Number(count),
       name: cardName,
-      set,
-      number,
+      // Algunas exportaciones ponen "Energy" en lugar del código de la expansión.
+      set: set === 'Energy' ? '' : set,
+      number: set === 'Energy' ? '' : number,
       category: category ?? guessCategory(cardName),
     });
   }

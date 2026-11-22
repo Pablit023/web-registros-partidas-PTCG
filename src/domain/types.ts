@@ -9,6 +9,8 @@ export interface DeckCard {
   set: string;
   number: string;
   category: CardCategory;
+  /** Nombre en español, como sale en el log. TCG Live exporta los mazos en inglés. */
+  logName?: string;
 }
 
 export interface Deck {
@@ -23,6 +25,8 @@ export interface Deck {
 
 export interface PrizeCard {
   name: string;
+  /** Nombre en español, como sale en el log. */
+  logName?: string;
   set: string;
   number: string;
   taken: boolean;
