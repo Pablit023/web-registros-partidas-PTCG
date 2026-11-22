@@ -34,6 +34,7 @@ siguiendo [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
 ## Versiones
 
-Se sigue [Semantic Versioning](https://semver.org/lang/es/). Al publicar una versión, la sección
-`[Unreleased]` del changelog pasa a llamarse como la versión, se actualiza `version` en
-`package.json` y se crea la etiqueta `vX.Y.Z` en `main`.
+Se sigue [Semantic Versioning](https://semver.org/lang/es/), y **cada pull request sube la versión
+de parche**: el primero fue la 0.0.1, el sexto la 0.0.6. En el propio pull request, la sección
+`[Unreleased]` del changelog pasa a llamarse como la versión nueva, con su fecha, y se actualiza
+`version` en `package.json`. Al fusionarlo se crea la etiqueta `vX.Y.Z` en `main`.
