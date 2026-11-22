@@ -121,6 +121,7 @@ export async function startDiskSync(): Promise<void> {
       db.games.toArray(),
       db.archetypes.toArray(),
       db.settings.toArray(),
+      db.tournaments.toArray(),
     ]),
   ).subscribe({
     next: () => {

@@ -58,6 +58,19 @@ export interface Game {
   notes: string;
   log: string;
   opponentCards: string[];
+  /** Torneo al que pertenece la partida, o null si es una partida normal. */
+  tournamentId?: string | null;
+  /** Ronda del torneo. En un Bo3, las partidas de la misma ronda comparten número. */
+  round?: number | null;
+}
+
+export interface Tournament {
+  id: string;
+  name: string;
+  startedAt: string;
+  /** Cuándo se terminó, o null mientras sigue en curso. */
+  finishedAt: string | null;
+  notes: string;
 }
 
 export interface KeyCard {
@@ -79,4 +92,6 @@ export interface Settings {
   playerName: string;
   /** Si es true, los datos se guardan también en un archivo del ordenador (ver server/dataFile.ts). */
   saveToDisk?: boolean;
+  /** Torneo en curso: las partidas nuevas se guardan en él. */
+  activeTournamentId?: string | null;
 }
