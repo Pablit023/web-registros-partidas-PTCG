@@ -17,15 +17,16 @@ App web local para registrar y analizar tus partidas de **Pokémon TCG Live**: i
 
 ## 📦 Qué hace
 
-| Pantalla      | Para qué                                                                                                                                                                     |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Historial     | Todas tus partidas, con los Pokémon principales de tu mazo y del rival como iconos (los de Limitless), filtros por resultado y mazo rival y búsqueda por rival, mazo o notas |
-| Nueva partida | Eliges el mazo (el actual por defecto) y tus 6 cartas de Premio                                                                                                              |
-| Partida       | Pegas el log y se rellenan el resultado, el rival, su mazo, quién empezó, los turnos, cómo terminó y los premios que cogiste. Todo se puede corregir, y añadir notas y fecha |
-| Estadísticas  | % de victorias total, en las últimas 10, contra cada mazo rival, con cada uno de tus mazos y según quién empieza, y cuántas detecciones no tuviste que corregir              |
-| Mis mazos     | Importas la lista que exporta TCG Live (las cartas se traducen solas al español), guardas varios mazos, los editas y marcas uno como actual                                  |
-| Meta          | Los mazos populares con sus cartas clave y sus iconos, editables. Empieza con los 20 más jugados en Limitless TCG (noviembre de 2026)                                        |
-| Ajustes       | Tu nombre en TCG Live, guardar en el ordenador y la copia de seguridad (descargar y restaurar un JSON)                                                                       |
+| Pantalla      | Para qué                                                                                                                                                                                                   |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Historial     | Tus partidas normales (o las de torneo, o todas), con los Pokémon principales de tu mazo y del rival como iconos (los de Limitless), filtros por resultado y mazo rival y búsqueda por rival, mazo o notas |
+| Nueva partida | Eliges el mazo (el actual por defecto) y tus 6 cartas de Premio                                                                                                                                            |
+| Partida       | Pegas el log y se rellenan el resultado, el rival, su mazo, quién empezó, los turnos, cómo terminó y los premios que cogiste. Todo se puede corregir, y añadir notas y fecha                               |
+| Estadísticas  | % de victorias total, en las últimas 10, contra cada mazo rival, con cada uno de tus mazos y según quién empieza, y cuántas detecciones no tuviste que corregir                                            |
+| Torneos       | Creas un torneo y se activa el modo torneo: las partidas nuevas se guardan en él con su ronda. Cada torneo tiene su resultado y sus partidas                                                               |
+| Mis mazos     | Importas la lista que exporta TCG Live (las cartas se traducen solas al español), guardas varios mazos, los editas y marcas uno como actual                                                                |
+| Meta          | Los mazos populares con sus cartas clave y sus iconos, editables. Empieza con los 20 más jugados en Limitless TCG (noviembre de 2026)                                                                      |
+| Ajustes       | Tu nombre en TCG Live, guardar en el ordenador y la copia de seguridad (descargar y restaurar un JSON)                                                                                                     |
 
 ## 🔄 Cómo funciona una partida
 
@@ -39,6 +40,14 @@ App web local para registrar y analizar tus partidas de **Pokémon TCG Live**: i
 4. **Revisa y guarda.** Una partida sin resultado se queda _En curso_ hasta que lo tenga.
 
 Tu nombre en el juego (por defecto `Pablolo23`) sirve para saber qué jugador del log eres tú. Cámbialo en _Ajustes_ si hace falta.
+
+## 🏆 Modo torneo
+
+1. En _Torneos_ crea el torneo con su nombre y fecha. Se activa el **modo torneo** y la barra lateral lo recuerda.
+2. Las partidas que crees se guardan en ese torneo, con la ronda siguiente (cámbiala si juegas al mejor de 3). También puedes mover cualquier partida a un torneo, o sacarla, desde la propia partida.
+3. Al acabar, pulsa _Terminar torneo_ y vuelves a las partidas normales.
+
+El historial enseña por defecto las partidas normales; elige _Todas las de torneo_, _Todas las partidas_ o un torneo concreto en el primer filtro. Las estadísticas cuentan todas por defecto, y el mismo selector las separa.
 
 ## 🔍 Detección del mazo rival
 
