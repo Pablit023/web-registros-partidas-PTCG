@@ -9,6 +9,8 @@ import { MetaPage } from './pages/MetaPage';
 import { NewGamePage } from './pages/NewGamePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { StatsPage } from './pages/StatsPage';
+import { TournamentPage } from './pages/TournamentPage';
+import { TournamentsPage } from './pages/TournamentsPage';
 import './styles.css';
 
 const router = createBrowserRouter([
@@ -21,6 +23,8 @@ const router = createBrowserRouter([
       { path: '/mazos', element: <DecksPage /> },
       { path: '/meta', element: <MetaPage /> },
       { path: '/estadisticas', element: <StatsPage /> },
+      { path: '/torneos', element: <TournamentsPage /> },
+      { path: '/torneos/:id', element: <TournamentPage /> },
       { path: '/ajustes', element: <SettingsPage /> },
     ],
   },

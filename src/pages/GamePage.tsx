@@ -9,6 +9,7 @@ import {
   ResultBadge,
   toLocalInput,
 } from '../components/ui';
+import { TournamentFields } from '../components/TournamentFields';
 import { db } from '../data/db';
 import { useArchetypes, useGame, usePlayerName } from '../data/hooks';
 import { logNameOf } from '../domain/cardNames';
@@ -264,6 +265,11 @@ function GameEditor({ game, archetypes }: { game: Game; archetypes: Archetype[] 
               }
             />
           </label>
+          <TournamentFields
+            tournamentId={draft.tournamentId ?? null}
+            round={draft.round ?? null}
+            onChange={update}
+          />
         </div>
 
         {candidates.length > 0 && (

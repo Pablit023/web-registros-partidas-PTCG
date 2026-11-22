@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { GamesTable } from '../components/GamesTable';
+import { ScopeSelect } from '../components/ScopeSelect';
 import { Empty, PageHeader } from '../components/ui';
 import { useArchetypes, useGames } from '../data/hooks';
 import { formatPercent, overall } from '../domain/stats';
+import { type GameScope, gamesInScope } from '../domain/tournaments';
 import type { GameResult } from '../domain/types';
 
 type ResultFilter = 'all' | GameResult | 'in_progress';
@@ -14,10 +16,12 @@ export function HistoryPage() {
   const [resultFilter, setResultFilter] = useState<ResultFilter>('all');
   const [archetypeFilter, setArchetypeFilter] = useState('');
   const [search, setSearch] = useState('');
+  // Las partidas de torneo van aparte: por defecto se ven las normales.
+  const [scope, setScope] = useState<GameScope>('casual');
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return (games ?? []).filter((game) => {
+    return gamesInScope(games ?? [], scope).filter((game) => {
       if (resultFilter === 'in_progress' && game.status !== 'in_progress') return false;
       if (resultFilter !== 'all' && resultFilter !== 'in_progress' && game.result !== resultFilter)
         return false;
@@ -31,7 +35,7 @@ export function HistoryPage() {
         return false;
       return true;
     });
-  }, [games, resultFilter, archetypeFilter, search]);
+  }, [games, scope, resultFilter, archetypeFilter, search]);
 
   if (games === undefined) return null;
   const total = overall(filtered);
@@ -52,6 +56,7 @@ export function HistoryPage() {
       ) : (
         <>
           <div className="filters">
+            <ScopeSelect value={scope} onChange={setScope} />
             <select
               value={resultFilter}
               onChange={(e) => setResultFilter(e.target.value as ResultFilter)}
@@ -89,7 +94,7 @@ export function HistoryPage() {
             </span>
           </div>
 
-          <GamesTable games={filtered} />
+          <GamesTable games={filtered} showTournament={scope !== 'casual'} />
           {filtered.length === 0 && <Empty>Ninguna partida cumple los filtros.</Empty>}
         </>
       )}

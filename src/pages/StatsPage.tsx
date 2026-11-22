@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
+import { ScopeSelect } from '../components/ScopeSelect';
 import { Empty, PageHeader, WinRateBar } from '../components/ui';
 import { useArchetypes, useGames } from '../data/hooks';
 import {
@@ -11,17 +13,26 @@ import {
   overall,
   type WinRate,
 } from '../domain/stats';
+import { type GameScope, gamesInScope } from '../domain/tournaments';
 
 export function StatsPage() {
-  const games = useGames();
+  const allGames = useGames();
   const archetypes = useArchetypes();
-  if (games === undefined || archetypes === undefined) return null;
+  // Las partidas de torneo cuentan en las estadísticas: por defecto se ven todas juntas.
+  const [scope, setScope] = useState<GameScope>('all');
+  if (allGames === undefined || archetypes === undefined) return null;
 
+  const games = gamesInScope(allGames, scope);
+  const header = (
+    <PageHeader title="Estadísticas">
+      <ScopeSelect value={scope} onChange={setScope} />
+    </PageHeader>
+  );
   const finished = finishedGames(games);
   if (finished.length === 0) {
     return (
       <>
-        <PageHeader title="Estadísticas" />
+        {header}
         <Empty>
           Las estadísticas salen de las partidas terminadas.{' '}
           <Link to="/partidas/nueva">Registra una</Link>.
@@ -36,7 +47,7 @@ export function StatsPage() {
 
   return (
     <>
-      <PageHeader title="Estadísticas" />
+      {header}
       <div className="tiles">
         <Tile label="Partidas" value={String(total.games)} />
         <Tile
