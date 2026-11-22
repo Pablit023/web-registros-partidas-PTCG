@@ -19,12 +19,12 @@ App web local para registrar y analizar tus partidas de **Pokémon TCG Live**: i
 
 | Pantalla      | Para qué                                                                                                                                                                     |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Historial     | Todas tus partidas, con filtros por resultado y mazo rival y búsqueda por rival, mazo o notas                                                                                |
+| Historial     | Todas tus partidas, con los Pokémon principales de tu mazo y del rival como iconos (los de Limitless), filtros por resultado y mazo rival y búsqueda por rival, mazo o notas |
 | Nueva partida | Eliges el mazo (el actual por defecto) y tus 6 cartas de Premio                                                                                                              |
 | Partida       | Pegas el log y se rellenan el resultado, el rival, su mazo, quién empezó, los turnos, cómo terminó y los premios que cogiste. Todo se puede corregir, y añadir notas y fecha |
 | Estadísticas  | % de victorias total, en las últimas 10, contra cada mazo rival, con cada uno de tus mazos y según quién empieza, y cuántas detecciones no tuviste que corregir              |
 | Mis mazos     | Importas la lista que exporta TCG Live (las cartas se traducen solas al español), guardas varios mazos, los editas y marcas uno como actual                                  |
-| Meta          | Los mazos populares con sus cartas clave, editables. Empieza con los 20 más jugados en Limitless TCG (noviembre de 2026)                                                     |
+| Meta          | Los mazos populares con sus cartas clave y sus iconos, editables. Empieza con los 20 más jugados en Limitless TCG (noviembre de 2026)                                        |
 | Ajustes       | Tu nombre en TCG Live, guardar en el ordenador y la copia de seguridad (descargar y restaurar un JSON)                                                                       |
 
 ## 🔄 Cómo funciona una partida
@@ -46,7 +46,7 @@ Cada mazo del meta tiene unas **cartas clave con peso**: 3 para la carta princip
 
 Los nombres se comparan sin acentos, mayúsculas, guiones ni dueño, así que `Zoroark ex` encuentra _Zoroark ex de N_ y _N's Zoroark ex_, y `Kangaskhan ex` encuentra _Mega-Kangaskhan ex_. Por eso conviene usar como cartas clave nombres de Pokémon, que casi siempre se escriben igual en español y en inglés.
 
-Cuando salga un mazo nuevo, añádelo en _Meta_. Si borras un mazo del meta, sus partidas pasan a _Desconocido_.
+Cuando salga un mazo nuevo, añádelo en _Meta_ con sus iconos: hasta 2 Pokémon en inglés, como los nombra Limitless (`dragapult`, `kangaskhan-mega`). Los iconos de tus mazos se eligen solos (los del mazo del meta que encaja o, si no, tu Pokémon ex con más copias) y se cambian en _Editar_. Las imágenes se cargan de Limitless: sin conexión se ve el nombre. Si borras un mazo del meta, sus partidas pasan a _Desconocido_.
 
 ## 💾 Guardar en el ordenador
 

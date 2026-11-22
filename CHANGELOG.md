@@ -9,6 +9,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y
 
 ### Added
 
+- El historial muestra tu mazo y el del rival con los iconos de sus Pokémon principales, como Limitless. Los mazos del meta traen los iconos de Limitless y se pueden cambiar; los de tus mazos se eligen solos y se cambian en _Editar_.
+
 - Las cartas de un mazo importado se traducen al español con TCGdex, por su expansión y número, para que coincidan con el log: los premios se marcan solos aunque TCG Live exporte el mazo en inglés. Las Energías básicas se traducen sin conexión, y lo que no se encuentre se puede escribir a mano.
 - Editar un mazo guardado: su nombre, su lista y el nombre en español de cada carta, con un botón para traducir las que faltan.
 
