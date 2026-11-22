@@ -15,6 +15,31 @@ export const RESULT_LABEL: Record<GameResult, string> = {
   tie: 'Empate',
 };
 
+/** Victoria, derrota o empate; pulsar el elegido lo quita. */
+export function ResultPicker({
+  value,
+  onChange,
+}: {
+  value: GameResult | null;
+  onChange: (result: GameResult | null) => void;
+}) {
+  return (
+    <div className="segmented" role="radiogroup" aria-label="Resultado">
+      {(['win', 'loss', 'tie'] as const).map((r) => (
+        <button
+          key={r}
+          role="radio"
+          aria-checked={value === r}
+          className={value === r ? `selected sel-${r}` : ''}
+          onClick={() => onChange(value === r ? null : r)}
+        >
+          {RESULT_LABEL[r]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export function ResultBadge({ result }: { result: GameResult | null }) {
   if (result === null) return <span className="badge badge-pending">En curso</span>;
   return <span className={`badge badge-${result}`}>{RESULT_LABEL[result]}</span>;
