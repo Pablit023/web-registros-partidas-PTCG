@@ -18,6 +18,8 @@ export interface Deck {
   name: string;
   cards: DeckCard[];
   isCurrent: boolean;
+  /** Pokémon que se muestran como iconos (ver pokemonIcons.ts). Sin ellos, se eligen solos. */
+  icons?: string[];
   createdAt: string;
   /** El texto tal como se importó desde TCG Live. */
   rawText: string;
@@ -68,6 +70,8 @@ export interface Archetype {
   id: string;
   name: string;
   keyCards: KeyCard[];
+  /** Pokémon que se muestran como iconos, como en Limitless: "dragapult", "kangaskhan-mega". */
+  icons?: string[];
 }
 
 export interface Settings {
