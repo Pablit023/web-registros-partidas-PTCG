@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { PRIZE_COUNT, PrizePicker } from '../components/PrizePicker';
+import { TournamentFields } from '../components/TournamentFields';
 import { Empty, PageHeader } from '../components/ui';
 import { db, newId } from '../data/db';
-import { useCurrentDeck, useDecks } from '../data/hooks';
+import { useActiveTournament, useCurrentDeck, useDecks, useGames } from '../data/hooks';
+import { nextRound } from '../domain/tournaments';
 import type { PrizeCard } from '../domain/types';
 
 export function NewGamePage() {
@@ -12,8 +14,19 @@ export function NewGamePage() {
   const navigate = useNavigate();
   const [chosenDeckId, setChosenDeckId] = useState<string | null>(null);
   const [prizes, setPrizes] = useState<PrizeCard[]>([]);
+  const games = useGames();
+  const activeTournament = useActiveTournament();
+  // undefined = lo que toque por defecto: el torneo activo y su ronda siguiente.
+  const [tournamentChoice, setTournamentChoice] = useState<string | null | undefined>(undefined);
+  const [roundChoice, setRoundChoice] = useState<number | null | undefined>(undefined);
 
-  if (decks === undefined || currentDeck === undefined) return null;
+  if (
+    decks === undefined ||
+    currentDeck === undefined ||
+    games === undefined ||
+    activeTournament === undefined
+  )
+    return null;
   if (decks.length === 0) {
     return (
       <>
@@ -27,6 +40,13 @@ export function NewGamePage() {
 
   const deckId = chosenDeckId ?? currentDeck?.id ?? decks[0]?.id ?? '';
   const deck = decks.find((d) => d.id === deckId);
+  const tournamentId =
+    tournamentChoice === undefined ? (activeTournament?.id ?? null) : tournamentChoice;
+  const round = tournamentId
+    ? roundChoice === undefined
+      ? nextRound(games, tournamentId)
+      : roundChoice
+    : null;
 
   async function start() {
     if (!deck) return;
@@ -48,6 +68,8 @@ export function NewGamePage() {
       notes: '',
       log: '',
       opponentCards: [],
+      tournamentId,
+      round,
     });
     navigate(`/partidas/${id}`);
   }
@@ -61,8 +83,14 @@ export function NewGamePage() {
             : `Empezar con ${prizes.length}/${PRIZE_COUNT} premios`}
         </button>
       </PageHeader>
-      <section className="card">
-        <label className="field inline">
+      {activeTournament && tournamentId === activeTournament.id && (
+        <p className="tournament-banner">
+          Modo torneo: esta partida se guarda en <strong>{activeTournament.name}</strong>, ronda{' '}
+          {round ?? '—'}.
+        </p>
+      )}
+      <section className="card form-grid">
+        <label className="field">
           Mazo
           <select
             value={deckId}
@@ -79,6 +107,14 @@ export function NewGamePage() {
             ))}
           </select>
         </label>
+        <TournamentFields
+          tournamentId={tournamentId}
+          round={round}
+          onChange={(changes) => {
+            setTournamentChoice(changes.tournamentId);
+            setRoundChoice(changes.tournamentId === tournamentId ? changes.round : undefined);
+          }}
+        />
       </section>
       <section className="card">
         <h2>Tus 6 cartas de Premio</h2>

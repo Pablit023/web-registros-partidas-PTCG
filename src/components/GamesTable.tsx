@@ -1,16 +1,32 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
-import { useArchetypes, useDecks } from '../data/hooks';
+import { useArchetypes, useDecks, useTournaments } from '../data/hooks';
 import { guessDeckIcons } from '../domain/pokemonIcons';
 import type { Game } from '../domain/types';
 import { DeckIcons } from './DeckIcons';
 import { formatDate, ResultBadge } from './ui';
 
-/** La tabla de partidas del historial: cada fila abre la partida. */
-export function GamesTable({ games }: { games: Game[] }) {
+/**
+ * La tabla de partidas del historial: cada fila abre la partida. `showTournament` añade una columna
+ * con el torneo y la ronda; `showRound`, solo la ronda (para la página de un torneo).
+ */
+export function GamesTable({
+  games,
+  showTournament = false,
+  showRound = false,
+}: {
+  games: Game[];
+  showTournament?: boolean;
+  showRound?: boolean;
+}) {
   const navigate = useNavigate();
   const archetypes = useArchetypes();
   const decks = useDecks();
+  const tournaments = useTournaments();
+  const tournamentNames = useMemo(
+    () => new Map(tournaments?.map((t) => [t.id, t.name])),
+    [tournaments],
+  );
 
   const archetypeById = useMemo(() => new Map(archetypes?.map((a) => [a.id, a])), [archetypes]);
   const deckIcons = useMemo(
@@ -28,6 +44,7 @@ export function GamesTable({ games }: { games: Game[] }) {
     <table className="table games">
       <thead>
         <tr>
+          {showRound && <th>Ronda</th>}
           <th>Fecha</th>
           <th>Resultado</th>
           <th>Mi mazo</th>
@@ -36,6 +53,7 @@ export function GamesTable({ games }: { games: Game[] }) {
           <th>Turno</th>
           <th>Turnos</th>
           <th>Premios</th>
+          {showTournament && <th>Torneo</th>}
         </tr>
       </thead>
       <tbody>
@@ -48,6 +66,7 @@ export function GamesTable({ games }: { games: Game[] }) {
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && navigate(`/partidas/${game.id}`)}
             >
+              {showRound && <td>{game.round ?? '—'}</td>}
               <td>{formatDate(game.playedAt)}</td>
               <td>
                 <ResultBadge result={game.status === 'finished' ? game.result : null} />
@@ -72,6 +91,13 @@ export function GamesTable({ games }: { games: Game[] }) {
                   ? `${game.prizes.filter((p) => p.taken).length}/${game.prizes.length}`
                   : '—'}
               </td>
+              {showTournament && (
+                <td>
+                  {game.tournamentId
+                    ? `${tournamentNames.get(game.tournamentId) ?? 'Torneo'}${game.round ? ` · R${game.round}` : ''}`
+                    : '—'}
+                </td>
+              )}
             </tr>
           );
         })}

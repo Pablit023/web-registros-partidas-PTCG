@@ -3,10 +3,12 @@ import { useEffect } from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
 import { db } from '../data/db';
 import { startDiskSync, stopDiskSync, useDiskStatus } from '../data/diskSync';
+import { useActiveTournament } from '../data/hooks';
 
 const LINKS = [
   { to: '/', label: 'Historial', end: true },
   { to: '/partidas/nueva', label: 'Nueva partida' },
+  { to: '/torneos', label: 'Torneos' },
   { to: '/estadisticas', label: 'Estadísticas' },
   { to: '/mazos', label: 'Mis mazos' },
   { to: '/meta', label: 'Meta' },
@@ -34,6 +36,7 @@ export function Layout() {
             {link.label}
           </NavLink>
         ))}
+        <ActiveTournament />
         <DiskIndicator />
       </nav>
       <main className="content">
@@ -63,6 +66,18 @@ function DiskIndicator() {
       role="status"
     >
       {text}
+    </Link>
+  );
+}
+
+/** Recordatorio del modo torneo en la barra lateral, con enlace al torneo. */
+function ActiveTournament() {
+  const tournament = useActiveTournament();
+  if (!tournament) return null;
+  return (
+    <Link to={`/torneos/${tournament.id}`} className="tournament-mode">
+      <span className="tournament-mode-label">Modo torneo</span>
+      <span>{tournament.name}</span>
     </Link>
   );
 }
