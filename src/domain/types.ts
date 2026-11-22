@@ -69,4 +69,6 @@ export interface Archetype {
 export interface Settings {
   id: 'settings';
   playerName: string;
+  /** Si es true, los datos se guardan también en un archivo del ordenador (ver server/dataFile.ts). */
+  saveToDisk?: boolean;
 }

@@ -7,6 +7,10 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y
 
 ## [Unreleased]
 
+### Added
+
+- Opción _Guardar en el ordenador_ en Ajustes: con ella activada, cada cambio se guarda en `datos/partidas.json` dentro del proyecto (o en la ruta de `PTCG_DATA_FILE`), con la versión anterior en `datos/partidas.anterior.json`, y al abrir la app se cargan los datos de ese archivo. La barra lateral dice cuándo se guardó por última vez o si falló.
+
 ## [0.0.1] - 2026-11-22
 
 ### Added

@@ -9,3 +9,6 @@ coverage/
 # Solo se versiona pnpm-lock.yaml.
 package-lock.json
 yarn.lock
+
+# Datos de la app guardados en el ordenador (Ajustes > Guardar en el ordenador).
+datos/

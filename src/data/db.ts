@@ -1,4 +1,5 @@
-// Base de datos local en IndexedDB (Dexie). Vive en el navegador: no hay servidor ni cuenta.
+// Base de datos local en IndexedDB (Dexie). Vive en el navegador; si se activa en Ajustes, una
+// copia se guarda además en un archivo del ordenador (src/data/diskSync.ts).
 
 import Dexie, { type EntityTable } from 'dexie';
 import { META_SEED } from '../domain/metaSeed';
@@ -40,8 +41,14 @@ export async function setCurrentDeck(deckId: string): Promise<void> {
   });
 }
 
-export async function saveSettings(settings: Omit<Settings, 'id'>): Promise<void> {
-  await db.settings.put({ id: 'settings', ...settings });
+export async function saveSettings(changes: Partial<Omit<Settings, 'id'>>): Promise<void> {
+  const current = await db.settings.get('settings');
+  await db.settings.put({
+    id: 'settings',
+    playerName: DEFAULT_PLAYER_NAME,
+    ...current,
+    ...changes,
+  });
 }
 
 // Copia de seguridad: un JSON con todo, para guardarlo o pasarlo a otro ordenador.

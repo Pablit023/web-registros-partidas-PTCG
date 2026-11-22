@@ -3,7 +3,7 @@
 App web local para registrar y analizar tus partidas de **Pokémon TCG Live**: importas tu mazo, eliges tus premios al empezar, pegas el log al terminar y la app detecta contra qué mazo has jugado y te enseña tus porcentajes de victoria.
 
 > [!NOTE]
-> Todo se guarda en tu navegador (IndexedDB). No hay servidor, cuenta ni conexión a internet: descarga una copia de seguridad desde **Ajustes** de vez en cuando.
+> Todo se guarda en tu navegador (IndexedDB), sin cuenta ni conexión a internet. Activa **Ajustes > Guardar en el ordenador** para que además se guarde en el archivo `datos/partidas.json` del proyecto.
 
 ## 📑 Contenido
 
@@ -25,7 +25,7 @@ App web local para registrar y analizar tus partidas de **Pokémon TCG Live**: i
 | Estadísticas  | % de victorias total, en las últimas 10, contra cada mazo rival, con cada uno de tus mazos y según quién empieza, y cuántas detecciones no tuviste que corregir              |
 | Mis mazos     | Importas la lista que exporta TCG Live, guardas varios mazos y marcas uno como actual                                                                                        |
 | Meta          | Los mazos populares con sus cartas clave, editables. Empieza con los 20 más jugados en Limitless TCG (noviembre de 2026)                                                     |
-| Ajustes       | Tu nombre en TCG Live y la copia de seguridad (descargar y restaurar un JSON)                                                                                                |
+| Ajustes       | Tu nombre en TCG Live, guardar en el ordenador y la copia de seguridad (descargar y restaurar un JSON)                                                                       |
 
 ## 🔄 Cómo funciona una partida
 
@@ -48,13 +48,28 @@ Los nombres se comparan sin acentos, mayúsculas, guiones ni dueño, así que `Z
 
 Cuando salga un mazo nuevo, añádelo en _Meta_. Si borras un mazo del meta, sus partidas pasan a _Desconocido_.
 
+## 💾 Guardar en el ordenador
+
+Con el interruptor de _Ajustes > Guardar en el ordenador_ activado:
+
+- Cada cambio se escribe, medio segundo después, en `datos/partidas.json` dentro de la carpeta del proyecto. La versión anterior queda en `datos/partidas.anterior.json`.
+- Al abrir la app se cargan los datos de ese archivo, así que no dependen del navegador: en otro navegador, o después de borrar su historial, basta con activarlo otra vez.
+- Si al activarlo ya hay datos en el archivo y en el navegador, la app pregunta cuáles quedarse.
+- La barra lateral dice cuándo se guardó por última vez, o si no se pudo.
+
+Lo escribe el propio servidor de Vite (`pnpm dev` o `pnpm preview`) en `/api/datos`, que solo escucha en este equipo. La carpeta `datos/` no se sube a Git. Para guardar el archivo en otro sitio, por ejemplo en una carpeta de OneDrive, arranca la app con la variable `PTCG_DATA_FILE`:
+
+```powershell
+$env:PTCG_DATA_FILE = "$HOME\OneDrive\partidas-ptcg.json"; pnpm dev
+```
+
 ## 🧰 Tecnología
 
-| Parte    | Con qué                                                          |
-| -------- | ---------------------------------------------------------------- |
-| Interfaz | TypeScript, React 19, React Router y Vite                        |
-| Datos    | IndexedDB con Dexie, con consultas en vivo (`dexie-react-hooks`) |
-| Calidad  | Vitest, ESLint, Prettier y GitHub Actions                        |
+| Parte    | Con qué                                                                                                                           |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Interfaz | TypeScript, React 19, React Router y Vite                                                                                         |
+| Datos    | IndexedDB con Dexie, con consultas en vivo (`dexie-react-hooks`), y un archivo JSON en el ordenador escrito por un plugin de Vite |
+| Calidad  | Vitest, ESLint, Prettier y GitHub Actions                                                                                         |
 
 La lectura del log, de los mazos, la detección y las estadísticas son funciones puras en `src/domain/`, sin React ni base de datos, y tienen sus tests al lado.
 
@@ -75,7 +90,7 @@ pnpm preview
 ```
 
 > [!IMPORTANT]
-> Los datos van unidos a la dirección y al navegador: usa siempre el mismo puerto y el mismo navegador, o pasa tus datos con _Descargar copia_ y _Restaurar copia_.
+> Sin _Guardar en el ordenador_, los datos van unidos a la dirección y al navegador: usa siempre el mismo puerto y el mismo navegador, o pasa tus datos con _Descargar copia_ y _Restaurar copia_.
 
 ## 🧪 Tests y comprobaciones
 
@@ -98,6 +113,7 @@ src/
 ├── components/   # Menú, selector de premios y piezas comunes
 ├── pages/        # Una pantalla por archivo
 └── styles.css
+server/           # Plugin de Vite que lee y escribe datos/partidas.json
 ```
 
 ## 🤝 Contribuir

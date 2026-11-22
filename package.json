@@ -12,7 +12,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --project tsconfig.json",
+    "typecheck": "tsc --project tsconfig.json && tsc --project tsconfig.node.json",
     "test": "vitest run",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
     "@types/react": "~19.3.0",
     "@types/react-dom": "~19.3.0",
     "@vitejs/plugin-react": "^6.3.0",
