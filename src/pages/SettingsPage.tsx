@@ -1,6 +1,8 @@
+import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
-import { PageHeader } from '../components/ui';
-import { exportBackup, importBackup, saveSettings } from '../data/db';
+import { formatDate, PageHeader } from '../components/ui';
+import { db, exportBackup, importBackup, saveSettings } from '../data/db';
+import { disableDiskSync, enableDiskSync, fetchDiskData, useDiskStatus } from '../data/diskSync';
 import { usePlayerName } from '../data/hooks';
 
 export function SettingsPage() {
@@ -9,6 +11,7 @@ export function SettingsPage() {
     <>
       <PageHeader title="Ajustes" />
       <PlayerNameForm key={playerName} initial={playerName} />
+      <DiskSection />
       <BackupSection />
     </>
   );
@@ -38,6 +41,71 @@ function PlayerNameForm({ initial }: { initial: string }) {
         </button>
         {saved && <span className="ok">Guardado.</span>}
       </div>
+    </section>
+  );
+}
+
+function DiskSection() {
+  const enabled = useLiveQuery(
+    async () => (await db.settings.get('settings'))?.saveToDisk ?? false,
+  );
+  const status = useDiskStatus();
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function toggle() {
+    setBusy(true);
+    setError(null);
+    try {
+      if (enabled) {
+        await disableDiskSync();
+        return;
+      }
+      const disk = await fetchDiskData();
+      const browserGames = await db.games.count();
+      let keep: 'disk' | 'browser' = disk ? 'disk' : 'browser';
+      if (disk && browserGames > 0) {
+        keep = window.confirm(
+          `En el ordenador ya hay datos guardados el ${formatDate(disk.exportedAt)} con ` +
+            `${disk.games.length} partidas, y en este navegador hay ${browserGames}.\n\n` +
+            'Aceptar: usar los del ordenador.\nCancelar: sustituirlos por los de este navegador.',
+        )
+          ? 'disk'
+          : 'browser';
+      }
+      await enableDiskSync(keep);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="card">
+      <h2>Guardar en el ordenador</h2>
+      <p className="muted">
+        Guarda también tus datos en el archivo <code>datos/partidas.json</code> de la carpeta del
+        proyecto, que se actualiza solo con cada cambio. Así no dependen del navegador: si cambias
+        de navegador o borras su historial, al activarlo otra vez se cargan del archivo. La versión
+        anterior queda en <code>datos/partidas.anterior.json</code>.
+      </p>
+      <label className="toggle">
+        <input
+          type="checkbox"
+          role="switch"
+          checked={enabled ?? false}
+          disabled={busy || enabled === undefined}
+          onChange={() => void toggle()}
+        />
+        <span className="toggle-track" aria-hidden="true" />
+        {enabled ? 'Activado' : 'Desactivado'}
+      </label>
+      {enabled && status.state === 'saved' && (
+        <p className="ok">Último guardado: {formatDate(status.at.toISOString())}.</p>
+      )}
+      {enabled && status.state === 'error' && <p className="warning">{status.message}</p>}
+      {error && <p className="warning">{error}</p>}
     </section>
   );
 }
@@ -73,8 +141,8 @@ function BackupSection() {
     <section className="card">
       <h2>Copia de seguridad</h2>
       <p className="muted">
-        Los datos se guardan solo en este navegador. Si borras los datos del navegador se pierden,
-        así que descarga una copia de vez en cuando.
+        Descarga todos tus datos en un archivo para guardarlo donde quieras o llevarlo a otro
+        ordenador, y restáuralo cuando lo necesites.
       </p>
       <div className="form-actions start">
         <button className="primary" onClick={() => void download()}>
