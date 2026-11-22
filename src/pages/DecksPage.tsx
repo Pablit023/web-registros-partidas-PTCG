@@ -1,16 +1,19 @@
 import { useMemo, useState } from 'react';
+import { DeckIcons } from '../components/DeckIcons';
 import { CATEGORY_LABEL, Empty, PageHeader } from '../components/ui';
 import { translateDeckCards, type TranslationResult } from '../data/cardTranslation';
 import { db, newId, setCurrentDeck } from '../data/db';
-import { useDecks } from '../data/hooks';
+import { useArchetypes, useDecks } from '../data/hooks';
 import { cardKey, logNameOf } from '../domain/cardNames';
 import { parseDeckList } from '../domain/deckParser';
+import { guessDeckIcons, parseIcons } from '../domain/pokemonIcons';
 import type { Deck, DeckCard } from '../domain/types';
 
 const CATEGORIES = ['pokemon', 'trainer', 'energy'] as const;
 
 export function DecksPage() {
   const decks = useDecks();
+  const archetypes = useArchetypes();
   const [openId, setOpenId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -25,6 +28,12 @@ export function DecksPage() {
           {decks?.map((deck) => (
             <li key={deck.id} className={deck.isCurrent ? 'deck-row current' : 'deck-row'}>
               <div className="deck-row-main">
+                <DeckIcons
+                  icons={
+                    deck.icons?.length ? deck.icons : guessDeckIcons(deck.cards, archetypes ?? [])
+                  }
+                  label=""
+                />
                 <button
                   className="link"
                   onClick={() => {
@@ -202,6 +211,7 @@ function TranslationSummary({ result }: { result: TranslationResult }) {
 /** Cambia el nombre, la lista y el nombre en español de cada carta de un mazo ya guardado. */
 function DeckEditor({ deck, onClose }: { deck: Deck; onClose: () => void }) {
   const [name, setName] = useState(deck.name);
+  const [iconsText, setIconsText] = useState((deck.icons ?? []).join(', '));
   const [text, setText] = useState(deck.rawText || formatDeckList(deck.cards));
   const [translations, setTranslations] = useState<Record<string, string>>(() =>
     Object.fromEntries(
@@ -237,6 +247,7 @@ function DeckEditor({ deck, onClose }: { deck: Deck; onClose: () => void }) {
   async function save() {
     await db.decks.update(deck.id, {
       name: name.trim() || deck.name,
+      icons: parseIcons(iconsText),
       cards: withTranslations(parsed.cards),
       rawText: text,
     });
@@ -248,6 +259,15 @@ function DeckEditor({ deck, onClose }: { deck: Deck; onClose: () => void }) {
       <label className="field">
         Nombre del mazo
         <input value={name} onChange={(e) => setName(e.target.value)} />
+      </label>
+      <label className="field">
+        Iconos del historial: hasta 2 Pokémon en inglés, separados por comas. Vacío para elegirlos
+        solos
+        <input
+          value={iconsText}
+          onChange={(e) => setIconsText(e.target.value)}
+          placeholder="dragapult, dusknoir"
+        />
       </label>
       <label className="field">
         Lista: pega una exportación nueva o cambia las cantidades

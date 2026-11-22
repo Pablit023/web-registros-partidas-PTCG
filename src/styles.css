@@ -637,3 +637,32 @@ code {
 .table.translations input {
   width: 100%;
 }
+
+/* Iconos de Pokémon */
+.deck-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1rem;
+  vertical-align: middle;
+}
+.deck-icons img {
+  image-rendering: auto;
+  object-fit: contain;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.archetype-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.archetype-head .archetype-name {
+  flex: 1;
+  min-width: 0;
+}

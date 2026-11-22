@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
-import { Empty, formatDate, PageHeader, ResultBadge } from '../components/ui';
+import { Link } from 'react-router';
+import { GamesTable } from '../components/GamesTable';
+import { Empty, PageHeader } from '../components/ui';
 import { useArchetypes, useGames } from '../data/hooks';
 import { formatPercent, overall } from '../domain/stats';
 import type { GameResult } from '../domain/types';
@@ -10,12 +11,9 @@ type ResultFilter = 'all' | GameResult | 'in_progress';
 export function HistoryPage() {
   const games = useGames();
   const archetypes = useArchetypes();
-  const navigate = useNavigate();
   const [resultFilter, setResultFilter] = useState<ResultFilter>('all');
   const [archetypeFilter, setArchetypeFilter] = useState('');
   const [search, setSearch] = useState('');
-
-  const names = useMemo(() => new Map(archetypes?.map((a) => [a.id, a.name])), [archetypes]);
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -91,45 +89,7 @@ export function HistoryPage() {
             </span>
           </div>
 
-          <table className="table games">
-            <thead>
-              <tr>
-                <th>Fecha</th>
-                <th>Resultado</th>
-                <th>Mi mazo</th>
-                <th>Mazo rival</th>
-                <th>Rival</th>
-                <th>Turno</th>
-                <th>Turnos</th>
-                <th>Premios</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((game) => (
-                <tr
-                  key={game.id}
-                  onClick={() => navigate(`/partidas/${game.id}`)}
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && navigate(`/partidas/${game.id}`)}
-                >
-                  <td>{formatDate(game.playedAt)}</td>
-                  <td>
-                    <ResultBadge result={game.status === 'finished' ? game.result : null} />
-                  </td>
-                  <td>{game.deckName}</td>
-                  <td>{game.archetypeId ? (names.get(game.archetypeId) ?? '—') : 'Desconocido'}</td>
-                  <td>{game.opponentName || '—'}</td>
-                  <td>{game.wentFirst === null ? '—' : game.wentFirst ? '1.º' : '2.º'}</td>
-                  <td>{game.turns ?? '—'}</td>
-                  <td>
-                    {game.prizes.length > 0
-                      ? `${game.prizes.filter((p) => p.taken).length}/${game.prizes.length}`
-                      : '—'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <GamesTable games={filtered} />
           {filtered.length === 0 && <Empty>Ninguna partida cumple los filtros.</Empty>}
         </>
       )}

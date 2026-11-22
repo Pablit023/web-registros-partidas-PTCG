@@ -21,6 +21,17 @@ export class PtcgDatabase extends Dexie {
       archetypes: 'id, name',
       settings: 'id',
     });
+    // v2: los mazos del meta guardados antes reciben los iconos de la lista inicial.
+    this.version(2).upgrade((tx) =>
+      tx
+        .table<Archetype>('archetypes')
+        .toCollection()
+        .modify((archetype) => {
+          if (archetype.icons?.length) return;
+          const seed = META_SEED.find((s) => s.name === archetype.name);
+          if (seed?.icons) archetype.icons = seed.icons;
+        }),
+    );
     this.on('populate', (tx) => {
       void tx.table('archetypes').bulkAdd(META_SEED.map((a) => ({ ...a, id: newId() })));
       void tx.table('settings').add({ id: 'settings', playerName: DEFAULT_PLAYER_NAME });
