@@ -5,7 +5,7 @@ import {
   formatDate,
   fromLocalInput,
   PageHeader,
-  RESULT_LABEL,
+  ResultPicker,
   ResultBadge,
   toLocalInput,
 } from '../components/ui';
@@ -17,7 +17,7 @@ import { detectArchetype, scoreArchetypes } from '../domain/detection';
 import { parseGameLog, type ParsedLog } from '../domain/logParser';
 import { markTakenPrizes } from '../domain/prizes';
 import { formatPercent } from '../domain/stats';
-import type { Archetype, Game, GameResult } from '../domain/types';
+import type { Archetype, Game } from '../domain/types';
 
 export function GamePage() {
   const { id } = useParams();
@@ -147,8 +147,11 @@ function GameEditor({ game, archetypes }: { game: Game; archetypes: Archetype[] 
         </section>
       )}
 
-      <section className="card">
-        <h2>Log de la partida</h2>
+      {/* En un torneo en físico no hay log: se queda plegado y es opcional. */}
+      <details className="card collapsible" open={!draft.tournamentId || draft.log !== ''}>
+        <summary>
+          <h2>Log de la partida{draft.tournamentId ? ' (opcional)' : ''}</h2>
+        </summary>
         <p className="muted">
           En TCG Live, al terminar, copia el log y pégalo aquí. Se lee solo al pegarlo.
         </p>
@@ -178,23 +181,11 @@ function GameEditor({ game, archetypes }: { game: Game; archetypes: Archetype[] 
             {w}
           </p>
         ))}
-      </section>
+      </details>
 
       <section className="card">
         <h2>Resultado</h2>
-        <div className="segmented" role="radiogroup" aria-label="Resultado">
-          {(['win', 'loss', 'tie'] as GameResult[]).map((r) => (
-            <button
-              key={r}
-              role="radio"
-              aria-checked={draft.result === r}
-              className={draft.result === r ? `selected sel-${r}` : ''}
-              onClick={() => update({ result: draft.result === r ? null : r })}
-            >
-              {RESULT_LABEL[r]}
-            </button>
-          ))}
-        </div>
+        <ResultPicker value={draft.result} onChange={(result) => update({ result })} />
 
         <div className="form-grid">
           <label className="field">

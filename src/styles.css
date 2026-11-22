@@ -694,3 +694,29 @@ code {
   padding: 0.6rem 1rem;
   margin: 0 0 1rem;
 }
+
+/* Secciones plegables */
+details.collapsible > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+details.collapsible > summary::-webkit-details-marker {
+  display: none;
+}
+details.collapsible > summary::before {
+  content: '▸';
+  color: var(--muted);
+  transition: transform 0.15s;
+}
+details.collapsible[open] > summary::before {
+  transform: rotate(90deg);
+}
+details.collapsible > summary h2 {
+  margin: 0;
+}
+details.collapsible[open] > summary {
+  margin-bottom: 0.6rem;
+}
