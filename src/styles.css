@@ -720,3 +720,7 @@ details.collapsible > summary h2 {
 details.collapsible[open] > summary {
   margin-bottom: 0.6rem;
 }
+.notes {
+  white-space: pre-wrap;
+  margin: 0;
+}

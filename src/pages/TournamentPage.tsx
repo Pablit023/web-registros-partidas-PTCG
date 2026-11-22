@@ -32,6 +32,10 @@ function TournamentDetail({ tournament }: { tournament: Tournament }) {
   const [name, setName] = useState(tournament.name);
   const [notes, setNotes] = useState(tournament.notes);
   const isActive = active?.id === tournament.id;
+  // Un torneo terminado no enseña el formulario de nombre y notas hasta pulsar "Editar".
+  const finished = Boolean(tournament.finishedAt) && !isActive;
+  const [editing, setEditing] = useState(false);
+  const showForm = !finished || editing;
 
   if (games === undefined) return null;
   const own = gamesInScope(games, { tournamentId: tournament.id }).sort(
@@ -54,6 +58,19 @@ function TournamentDetail({ tournament }: { tournament: Tournament }) {
           <span className="badge badge-current">Modo torneo activo</span>
         ) : (
           tournament.finishedAt && <span className="muted">Terminado</span>
+        )}
+        {finished && (
+          <button
+            aria-pressed={editing}
+            onClick={() => {
+              // Al cerrar sin guardar se descartan los cambios.
+              setName(tournament.name);
+              setNotes(tournament.notes);
+              setEditing(!editing);
+            }}
+          >
+            {editing ? 'Cerrar edición' : 'Editar'}
+          </button>
         )}
         <button className="danger" onClick={() => void remove()}>
           Borrar
@@ -102,36 +119,44 @@ function TournamentDetail({ tournament }: { tournament: Tournament }) {
         )}
       </section>
 
-      <section className="card">
-        <label className="field">
-          Nombre
-          <input value={name} onChange={(e) => setName(e.target.value)} />
-        </label>
-        <label className="field">
-          Notas
-          <textarea
-            rows={3}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Formato, número de jugadores, puesto final..."
-          />
-        </label>
-        <div className="form-actions">
-          <span />
-          <button
-            className="primary"
-            disabled={!dirty}
-            onClick={() =>
-              void db.tournaments.update(tournament.id, {
-                name: name.trim() || tournament.name,
-                notes,
-              })
-            }
-          >
-            Guardar
-          </button>
-        </div>
-      </section>
+      {!showForm && tournament.notes.trim() !== '' && (
+        <section className="card">
+          <h2>Notas</h2>
+          <p className="notes">{tournament.notes}</p>
+        </section>
+      )}
+
+      {showForm && (
+        <section className="card">
+          <label className="field">
+            Nombre
+            <input value={name} onChange={(e) => setName(e.target.value)} />
+          </label>
+          <label className="field">
+            Notas
+            <textarea
+              rows={3}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Formato, número de jugadores, puesto final..."
+            />
+          </label>
+          <div className="form-actions">
+            <span />
+            <button
+              className="primary"
+              disabled={!dirty}
+              onClick={() =>
+                void db.tournaments
+                  .update(tournament.id, { name: name.trim() || tournament.name, notes })
+                  .then(() => setEditing(false))
+              }
+            >
+              Guardar
+            </button>
+          </div>
+        </section>
+      )}
     </>
   );
 }
