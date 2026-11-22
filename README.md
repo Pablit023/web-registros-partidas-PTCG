@@ -23,13 +23,13 @@ App web local para registrar y analizar tus partidas de **Pokémon TCG Live**: i
 | Nueva partida | Eliges el mazo (el actual por defecto) y tus 6 cartas de Premio                                                                                                              |
 | Partida       | Pegas el log y se rellenan el resultado, el rival, su mazo, quién empezó, los turnos, cómo terminó y los premios que cogiste. Todo se puede corregir, y añadir notas y fecha |
 | Estadísticas  | % de victorias total, en las últimas 10, contra cada mazo rival, con cada uno de tus mazos y según quién empieza, y cuántas detecciones no tuviste que corregir              |
-| Mis mazos     | Importas la lista que exporta TCG Live, guardas varios mazos y marcas uno como actual                                                                                        |
+| Mis mazos     | Importas la lista que exporta TCG Live (las cartas se traducen solas al español), guardas varios mazos, los editas y marcas uno como actual                                  |
 | Meta          | Los mazos populares con sus cartas clave, editables. Empieza con los 20 más jugados en Limitless TCG (noviembre de 2026)                                                     |
 | Ajustes       | Tu nombre en TCG Live, guardar en el ordenador y la copia de seguridad (descargar y restaurar un JSON)                                                                       |
 
 ## 🔄 Cómo funciona una partida
 
-1. **Importa tu mazo** en _Mis mazos_: en TCG Live abre el mazo, pulsa _Exportar_ y pega el texto.
+1. **Importa tu mazo** en _Mis mazos_: en TCG Live abre el mazo, pulsa _Exportar_ y pega el texto. TCG Live exporta los nombres en inglés y escribe el log en español, así que al guardar el mazo cada carta se traduce con [TCGdex](https://tcgdex.dev) por su expansión y número (las Energías básicas, sin conexión). Si alguna no se encuentra, o no tenías conexión, escribe su nombre en _Editar_ o pulsa _Traducir las que faltan_.
 2. **Crea la partida** en _Nueva partida_ y pulsa las 6 cartas que han quedado como premios.
 3. **Al terminar, pega el log** en la partida. Se lee solo al pegarlo (o con _Leer log_):
    - jugadores, quién empezó y número de turnos;
