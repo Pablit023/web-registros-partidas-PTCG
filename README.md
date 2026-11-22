@@ -44,7 +44,7 @@ Tu nombre en el juego (por defecto `Pablolo23`) sirve para saber qué jugador de
 ## 🏆 Modo torneo
 
 1. En _Torneos_ crea el torneo con su nombre y fecha. Se activa el **modo torneo** y la barra lateral lo recuerda.
-2. Las partidas que crees se guardan en ese torneo, con la ronda siguiente (cámbiala si juegas al mejor de 3). También puedes mover cualquier partida a un torneo, o sacarla, desde la propia partida.
+2. Las partidas que crees se guardan en ese torneo, con la ronda siguiente (cámbiala si juegas al mejor de 3). Como en físico no hay log, en _Nueva partida_ basta con elegir el mazo del rival y el resultado y pulsar _Guardar partida_: quién empezó, el nombre del rival, las notas y los premios son opcionales, y vuelves al torneo para apuntar la siguiente. Si juegas el torneo en TCG Live, empieza la partida sin resultado y pega el log después. También puedes mover cualquier partida a un torneo, o sacarla, desde la propia partida.
 3. Al acabar, pulsa _Terminar torneo_ y vuelves a las partidas normales.
 
 El historial enseña por defecto las partidas normales; elige _Todas las de torneo_, _Todas las partidas_ o un torneo concreto en el primer filtro. Las estadísticas cuentan todas por defecto, y el mismo selector las separa.

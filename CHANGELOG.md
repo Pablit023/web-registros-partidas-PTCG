@@ -9,6 +9,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y
 
 ### Added
 
+- Registro rápido para torneos en físico: en una partida de torneo, _Nueva partida_ pide solo el mazo del rival y el resultado, y lo demás (quién empezó, rival, notas y premios) es opcional. El log queda plegado y opcional en las partidas de torneo.
+
 - Modo torneo: en _Torneos_ creas un torneo y las partidas nuevas se guardan en él con su ronda hasta que lo terminas. Cada torneo tiene su página con su resultado y sus partidas. El historial enseña por defecto las partidas normales y las estadísticas cuentan todas, y las dos se pueden filtrar por partidas normales, de torneo o de un torneo.
 
 - El historial muestra tu mazo y el del rival con los iconos de sus Pokémon principales, como Limitless. Los mazos del meta traen los iconos de Limitless y se pueden cambiar; los de tus mazos se eligen solos y se cambian en _Editar_.
