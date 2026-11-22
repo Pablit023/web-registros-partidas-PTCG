@@ -1,0 +1,88 @@
+Preparación
+RivalDePrueba ha elegido cara para el lanzamiento de moneda inicial.
+RivalDePrueba ha ganado el lanzamiento de moneda.
+RivalDePrueba ha decidido empezar en segundo lugar.
+RivalDePrueba ha robado 7 cartas de la mano inicial.
+- 7 cartas robadas.
+Pablolo23 ha robado 7 cartas de la mano inicial.
+- 7 cartas robadas.
+   • Energía Oscura Básica, Energía Fuego Básica, Dragapult ex, Pokétableta, Martillo Demoledor, Dreepy, Martillo Demoledor
+RivalDePrueba ha puesto en juego a Dreepy en el Puesto Activo.
+Pablolo23 ha puesto en juego a Dreepy en el Puesto Activo.
+
+Turno de Pablolo23
+Pablolo23 ha robado Energía Fuego Básica.
+Pablolo23 ha unido Energía Fuego Básica al Dreepy en el Puesto Activo.
+Pablolo23 ha jugado Pokétableta.
+- Pablolo23 ha robado Drakloak.
+- Pablolo23 ha barajado su baraja.
+Pablolo23 ha terminado su turno.
+
+Turno de RivalDePrueba
+RivalDePrueba ha robado una carta.
+RivalDePrueba ha jugado Pokochos Gemelos.
+- RivalDePrueba ha robado 2 cartas y las ha puesto en juego en la Banca.
+   • Dreepy, Budew
+- RivalDePrueba ha barajado su baraja.
+RivalDePrueba ha jugado Denis.
+- RivalDePrueba ha robado Energía Fuego Básica.
+- RivalDePrueba ha unido Energía Psíquica Básica al Dreepy en la Banca.
+- RivalDePrueba ha barajado su baraja.
+RivalDePrueba ha unido Energía Fuego Básica al Dreepy en el Puesto Activo.
+RivalDePrueba ha retirado a Dreepy a la Banca.
+- Se ha descartado Energía Fuego Básica del Dreepy de RivalDePrueba.
+El Budew de RivalDePrueba pasa a estar en el Puesto Activo.
+El Budew de RivalDePrueba ha infligido 10 puntos de daño usando Polen Picazón contra el Dreepy de Pablolo23.
+
+Turno de Pablolo23
+Pablolo23 ha robado Pokochos Gemelos.
+Pablolo23 ha hecho que el Dreepy del Puesto Activo evolucione a Drakloak.
+El Drakloak de Pablolo23 ha usado Orden de Búsqueda.
+- Pablolo23 ha robado Budew.
+Pablolo23 ha puesto en juego a Budew en la Banca.
+Pablolo23 ha retirado a Drakloak a la Banca.
+- Se ha descartado Energía Fuego Básica del Drakloak de Pablolo23.
+El Budew de Pablolo23 pasa a estar en el Puesto Activo.
+Pablolo23 ha unido Energía Fuego Básica al Drakloak en la Banca.
+El Budew de Pablolo23 ha infligido 10 puntos de daño usando Polen Picazón contra el Budew de RivalDePrueba.
+
+Turno de RivalDePrueba
+RivalDePrueba ha robado una carta.
+RivalDePrueba ha unido Energía Fuego Básica al Dreepy en la Banca.
+El Budew de RivalDePrueba ha infligido 10 puntos de daño usando Polen Picazón contra el Budew de Pablolo23.
+
+Turno de Pablolo23
+Pablolo23 ha robado Apoyo de Nanci.
+El Drakloak de Pablolo23 ha usado Orden de Búsqueda.
+- Pablolo23 ha robado Dreepy.
+Pablolo23 ha puesto en juego a Dreepy en la Banca.
+El Budew de Pablolo23 ha infligido 10 puntos de daño usando Polen Picazón contra el Budew de RivalDePrueba.
+
+Turno de RivalDePrueba
+RivalDePrueba ha robado una carta.
+RivalDePrueba ha jugado Órdenes de Jefes.
+- El Dreepy de Pablolo23 se ha intercambiado con el Budew de Pablolo23 y pasa a ser el Pokémon Activo.
+El Dreepy de Pablolo23 pasa a estar en el Puesto Activo.
+El Budew de RivalDePrueba ha infligido 10 puntos de daño usando Polen Picazón contra el Dreepy de Pablolo23.
+
+Turno de Pablolo23
+Pablolo23 ha robado Camilla Nocturna.
+El Drakloak de Pablolo23 ha usado Orden de Búsqueda.
+- Pablolo23 ha robado Energía Oscura Básica.
+Pablolo23 ha unido Energía Oscura Básica al Dreepy en el Puesto Activo.
+Pablolo23 ha retirado a Dreepy a la Banca.
+- Se ha descartado Energía Oscura Básica del Dreepy de Pablolo23.
+El Budew de Pablolo23 pasa a estar en el Puesto Activo.
+El Budew de Pablolo23 ha infligido 10 puntos de daño usando Polen Picazón contra el Budew de RivalDePrueba.
+¡El Budew de RivalDePrueba ha quedado Fuera de Combate!
+Pablolo23 ha cogido una carta de Premio.
+Se ha añadido Pokochos Gemelos a la mano de Pablolo23.
+El Dreepy de RivalDePrueba pasa a estar en el Puesto Activo.
+
+Turno de RivalDePrueba
+RivalDePrueba ha robado una carta.
+RivalDePrueba ha jugado Órdenes de Jefes.
+- El Dreepy de Pablolo23 se ha intercambiado con el Budew de Pablolo23 y pasa a ser el Pokémon Activo.
+El Dreepy de Pablolo23 pasa a estar en el Puesto Activo.
+El rival se ha rendido. Pablolo23 ha ganado.
+
