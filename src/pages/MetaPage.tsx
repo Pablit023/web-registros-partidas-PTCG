@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { Empty, PageHeader } from '../components/ui';
 import { db, newId } from '../data/db';
 import { useArchetypes } from '../data/hooks';
+import { DeckIcons } from '../components/DeckIcons';
 import { formatKeyCards, parseKeyCards } from '../domain/keyCards';
+import { parseIcons } from '../domain/pokemonIcons';
 import { META_SEED } from '../domain/metaSeed';
 import type { Archetype } from '../domain/types';
 
@@ -43,7 +45,9 @@ export function MetaPage() {
         La detección busca en el log las <strong>cartas clave</strong> de cada mazo. Escribe una por
         línea con su peso delante: 3 para la carta principal, 2 para su línea evolutiva, 1 para
         cartas de apoyo. Usa el nombre del Pokémon sin dueño (&quot;Zoroark ex&quot; encuentra
-        &quot;Zoroark ex de N&quot;). Lista inicial basada en Limitless TCG, noviembre de 2026.
+        &quot;Zoroark ex de N&quot;). Los <strong>iconos</strong> son hasta 2 Pokémon en inglés,
+        como en Limitless: &quot;dragapult&quot; o &quot;kangaskhan-mega&quot;. Lista inicial basada
+        en Limitless TCG, noviembre de 2026.
       </p>
       <input
         className="search"
@@ -65,12 +69,23 @@ export function MetaPage() {
 function ArchetypeCard({ archetype }: { archetype: Archetype }) {
   const [name, setName] = useState(archetype.name);
   const [cardsText, setCardsText] = useState(formatKeyCards(archetype.keyCards));
-  const dirty = name !== archetype.name || cardsText !== formatKeyCards(archetype.keyCards);
+  const savedIcons = (archetype.icons ?? []).join(', ');
+  const [iconsText, setIconsText] = useState(savedIcons);
+  const dirty =
+    name !== archetype.name ||
+    cardsText !== formatKeyCards(archetype.keyCards) ||
+    iconsText !== savedIcons;
 
   async function save() {
     const keyCards = parseKeyCards(cardsText);
-    await db.archetypes.update(archetype.id, { name: name.trim() || archetype.name, keyCards });
+    const icons = parseIcons(iconsText);
+    await db.archetypes.update(archetype.id, {
+      name: name.trim() || archetype.name,
+      keyCards,
+      icons,
+    });
     setCardsText(formatKeyCards(keyCards));
+    setIconsText(icons.join(', '));
   }
 
   async function remove() {
@@ -85,11 +100,21 @@ function ArchetypeCard({ archetype }: { archetype: Archetype }) {
 
   return (
     <section className="card archetype">
+      <div className="archetype-head">
+        <DeckIcons icons={parseIcons(iconsText)} label="" />
+        <input
+          className="archetype-name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          aria-label="Nombre del mazo"
+        />
+      </div>
       <input
-        className="archetype-name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        aria-label="Nombre del mazo"
+        value={iconsText}
+        onChange={(e) => setIconsText(e.target.value)}
+        aria-label="Iconos"
+        placeholder="Iconos: dragapult, dusknoir"
+        title="Hasta 2 Pokémon en inglés, separados por comas"
       />
       <textarea
         rows={Math.max(3, cardsText.split('\n').length)}
