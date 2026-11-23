@@ -1,6 +1,6 @@
 {
   "name": "registro-partidas-ptcg",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "description": "App web local para registrar y analizar partidas de Pokémon TCG Live.",
   "type": "module",

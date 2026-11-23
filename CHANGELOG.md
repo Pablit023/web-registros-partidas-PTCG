@@ -7,6 +7,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y
 
 ## [Unreleased]
 
+## [0.0.8] - 2026-11-23
+
+### Fixed
+
+- Los premios cuentan siempre sobre 6: el historial ya no pone, por ejemplo, 1/2 si al empezar elegiste solo 2.
+- En la partida se ven siempre los 6 huecos de premio. Los que no elegiste se rellenan con los que el log dice que cogiste, o se añaden a mano desde _Añadir los premios que faltan_.
+
 ## [0.0.7] - 2026-11-23
 
 ### Changed
@@ -56,7 +63,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/), y
 - Historial con filtros y búsqueda, y estadísticas de victorias por mazo rival, por mazo propio y según quién empieza.
 - Copia de seguridad: descargar y restaurar todos los datos en un JSON.
 
-[Unreleased]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.7...HEAD
+[Unreleased]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.8...HEAD
+[0.0.8]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/Pablit023/web-registros-partidas-PTCG/compare/v0.0.4...v0.0.5
