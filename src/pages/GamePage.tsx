@@ -11,11 +11,12 @@ import {
 } from '../components/ui';
 import { TournamentFields } from '../components/TournamentFields';
 import { db } from '../data/db';
-import { useArchetypes, useGame, usePlayerName } from '../data/hooks';
+import { PrizePicker } from '../components/PrizePicker';
+import { useArchetypes, useDecks, useGame, usePlayerName } from '../data/hooks';
 import { logNameOf } from '../domain/cardNames';
 import { detectArchetype, scoreArchetypes } from '../domain/detection';
 import { parseGameLog, type ParsedLog } from '../domain/logParser';
-import { markTakenPrizes } from '../domain/prizes';
+import { markTakenPrizes, PRIZE_COUNT } from '../domain/prizes';
 import { formatPercent } from '../domain/stats';
 import type { Archetype, Game } from '../domain/types';
 
@@ -49,6 +50,8 @@ const WIN_REASONS = [
 function GameEditor({ game, archetypes }: { game: Game; archetypes: Archetype[] }) {
   const navigate = useNavigate();
   const playerName = usePlayerName();
+  const decks = useDecks();
+  const deck = decks?.find((d) => d.id === game.deckId);
   const [draft, setDraft] = useState<Game>(game);
   const [parsed, setParsed] = useState<ParsedLog | null>(null);
   const [unmatchedPrizes, setUnmatchedPrizes] = useState<string[]>([]);
@@ -69,7 +72,7 @@ function GameEditor({ game, archetypes }: { game: Game; archetypes: Archetype[] 
     const detected = detectArchetype(result.opponentCards, archetypes);
     const marked = markTakenPrizes(draft.prizes, result.myPrizeCards);
     setParsed(result);
-    setUnmatchedPrizes(draft.prizes.length > 0 ? marked.unmatched : []);
+    setUnmatchedPrizes(marked.unmatched);
     update({
       log,
       opponentName: result.opponent ?? draft.opponentName,
@@ -80,7 +83,7 @@ function GameEditor({ game, archetypes }: { game: Game; archetypes: Archetype[] 
       opponentCards: result.opponentCards,
       detectedArchetypeId: detected?.archetype.id ?? null,
       archetypeId: detected?.archetype.id ?? draft.archetypeId,
-      prizes: draft.prizes.length > 0 ? marked.prizes : draft.prizes,
+      prizes: marked.prizes,
     });
   }
 
@@ -112,15 +115,19 @@ function GameEditor({ game, archetypes }: { game: Game; archetypes: Archetype[] 
       </PageHeader>
       {saved && <p className="ok">Partida guardada.</p>}
 
-      {draft.prizes.length > 0 && (
+      {(draft.prizes.length > 0 || deck) && (
         <section className="card">
           <h2>
             Premios{' '}
             <span className="muted">
-              ({takenCount} de {draft.prizes.length} cogidos)
+              ({takenCount} de {PRIZE_COUNT} cogidos)
             </span>
           </h2>
-          <p className="muted">Pulsa un premio para marcarlo o desmarcarlo como cogido.</p>
+          <p className="muted">
+            Pulsa un premio para marcarlo o desmarcarlo como cogido.
+            {draft.prizes.length < PRIZE_COUNT &&
+              ' Los que falten se rellenan con los que el log diga que cogiste, o añádelos abajo.'}
+          </p>
           <div className="prize-slots">
             {draft.prizes.map((prize, i) => (
               <button
@@ -137,7 +144,25 @@ function GameEditor({ game, archetypes }: { game: Game; archetypes: Archetype[] 
                 <span className="remove">{prize.taken ? '✓' : ''}</span>
               </button>
             ))}
+            {Array.from({ length: Math.max(0, PRIZE_COUNT - draft.prizes.length) }, (_, i) => (
+              <div key={`hueco-${i}`} className="prize-slot">
+                Premio {draft.prizes.length + i + 1}
+              </div>
+            ))}
           </div>
+          {deck && draft.prizes.length < PRIZE_COUNT && (
+            <details className="collapsible add-prizes">
+              <summary>
+                <h3>Añadir los premios que faltan</h3>
+              </summary>
+              <PrizePicker
+                cards={deck.cards}
+                prizes={draft.prizes}
+                onChange={(prizes) => update({ prizes })}
+                hideSlots
+              />
+            </details>
+          )}
           {unmatchedPrizes.length > 0 && (
             <p className="warning">
               El log dice que cogiste {unmatchedPrizes.join(', ')}, que no estaba entre los premios

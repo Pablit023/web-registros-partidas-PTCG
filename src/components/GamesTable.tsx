@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useArchetypes, useDecks, useTournaments } from '../data/hooks';
 import { guessDeckIcons } from '../domain/pokemonIcons';
+import { PRIZE_COUNT } from '../domain/prizes';
 import type { Game } from '../domain/types';
 import { DeckIcons } from './DeckIcons';
 import { formatDate, ResultBadge } from './ui';
@@ -88,7 +89,7 @@ export function GamesTable({
               <td>{game.turns ?? '—'}</td>
               <td>
                 {game.prizes.length > 0
-                  ? `${game.prizes.filter((p) => p.taken).length}/${game.prizes.length}`
+                  ? `${game.prizes.filter((p) => p.taken).length}/${PRIZE_COUNT}`
                   : '—'}
               </td>
               {showTournament && (

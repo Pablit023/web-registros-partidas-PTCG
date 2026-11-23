@@ -4,13 +4,33 @@ import { markTakenPrizes } from './prizes';
 const prize = (name: string) => ({ name, set: '', number: '', taken: false });
 
 describe('markTakenPrizes', () => {
-  it('marca una copia por cada carta cogida y aparta las que no estaban', () => {
+  it('marca una copia por cada carta cogida y añade en los huecos las que no estaban', () => {
     const { prizes, unmatched } = markTakenPrizes(
       [prize('Dreepy'), prize('Dreepy'), prize('Pokochos Gemelos')],
       ['dreepy', 'Arven'],
     );
-    expect(prizes.map((p) => p.taken)).toEqual([true, false, false]);
+    expect(prizes.map((p) => [p.name, p.taken])).toEqual([
+      ['Dreepy', true],
+      ['Dreepy', false],
+      ['Pokochos Gemelos', false],
+      ['Arven', true],
+    ]);
+    expect(unmatched).toEqual([]);
+  });
+
+  it('aparta solo las que no caben en los 6 premios', () => {
+    const six = Array.from({ length: 6 }, () => prize('Dreepy'));
+    const { prizes, unmatched } = markTakenPrizes(six, ['Arven']);
+    expect(prizes).toHaveLength(6);
     expect(unmatched).toEqual(['Arven']);
+  });
+
+  it('sin premios elegidos, rellena con los que dice el log', () => {
+    const { prizes } = markTakenPrizes([], ['Arven', 'Dreepy']);
+    expect(prizes.map((p) => [p.logName, p.taken])).toEqual([
+      ['Arven', true],
+      ['Dreepy', true],
+    ]);
   });
 
   it('desmarca lo que no sale en el log', () => {

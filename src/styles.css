@@ -724,3 +724,9 @@ details.collapsible[open] > summary {
   white-space: pre-wrap;
   margin: 0;
 }
+.add-prizes {
+  margin-top: 0.75rem;
+}
+.add-prizes > summary h3 {
+  margin: 0;
+}
