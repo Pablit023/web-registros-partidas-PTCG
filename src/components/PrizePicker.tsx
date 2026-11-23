@@ -1,10 +1,11 @@
 // Elige hasta 6 cartas del mazo como premios. Cada carta se puede elegir tantas veces como copias tiene.
 
 import { logNameOf } from '../domain/cardNames';
+import { PRIZE_COUNT } from '../domain/prizes';
 import type { DeckCard, PrizeCard } from '../domain/types';
 import { CATEGORY_LABEL } from './ui';
 
-export const PRIZE_COUNT = 6;
+export { PRIZE_COUNT };
 
 const cardKey = (card: { name: string; set: string; number: string }) =>
   `${card.name}|${card.set}|${card.number}`;
@@ -13,9 +14,11 @@ interface Props {
   cards: DeckCard[];
   prizes: PrizeCard[];
   onChange: (prizes: PrizeCard[]) => void;
+  /** Sin los 6 huecos de arriba, cuando la página ya los enseña a su manera. */
+  hideSlots?: boolean;
 }
 
-export function PrizePicker({ cards, prizes, onChange }: Props) {
+export function PrizePicker({ cards, prizes, onChange, hideSlots = false }: Props) {
   const used = new Map<string, number>();
   for (const prize of prizes) used.set(cardKey(prize), (used.get(cardKey(prize)) ?? 0) + 1);
   const full = prizes.length >= PRIZE_COUNT;
@@ -35,26 +38,28 @@ export function PrizePicker({ cards, prizes, onChange }: Props) {
 
   return (
     <div className="prize-picker">
-      <div className="prize-slots" aria-label="Premios elegidos">
-        {Array.from({ length: PRIZE_COUNT }, (_, i) => {
-          const prize = prizes[i];
-          return prize ? (
-            <button
-              key={i}
-              className="prize-slot filled"
-              onClick={() => remove(i)}
-              title="Quitar de los premios"
-            >
-              <span>{logNameOf(prize)}</span>
-              <span className="remove">×</span>
-            </button>
-          ) : (
-            <div key={i} className="prize-slot">
-              Premio {i + 1}
-            </div>
-          );
-        })}
-      </div>
+      {!hideSlots && (
+        <div className="prize-slots" aria-label="Premios elegidos">
+          {Array.from({ length: PRIZE_COUNT }, (_, i) => {
+            const prize = prizes[i];
+            return prize ? (
+              <button
+                key={i}
+                className="prize-slot filled"
+                onClick={() => remove(i)}
+                title="Quitar de los premios"
+              >
+                <span>{logNameOf(prize)}</span>
+                <span className="remove">×</span>
+              </button>
+            ) : (
+              <div key={i} className="prize-slot">
+                Premio {i + 1}
+              </div>
+            );
+          })}
+        </div>
+      )}
       {(['pokemon', 'trainer', 'energy'] as const).map((category) => {
         const group = cards.filter((card) => card.category === category);
         if (group.length === 0) return null;
